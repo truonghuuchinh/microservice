@@ -1,5 +1,6 @@
 ﻿using Catalog.Api.Common.Constants;
 using Catalog.Api.Entities;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,15 @@ namespace Catalog.Api.Data
 {
     public class CatalogContext : ICatalogContext
     {
-        public CatalogContext()
-        {
-            var client = new MongoClient(ConfigDatabase.ConnectionString);
-            var database = client.GetDatabase(ConfigDatabase.DatabaseName);
+        private IConfiguration _configuration;
 
-            Products = database.GetCollection<Product>(ConfigDatabase.Collection);
+        public CatalogContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            var client = new MongoClient(_configuration.GetValue<string>("DatabaseSettings:ConnectionStrings"));
+            var database = client.GetDatabase(_configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
+
+            Products = database.GetCollection<Product>(_configuration.GetValue<string>("DatabaseSettings:CollectionName"));
 
             CatalogContextSeed.SeedData(Products);
         }

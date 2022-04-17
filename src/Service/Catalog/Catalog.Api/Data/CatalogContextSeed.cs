@@ -14,7 +14,14 @@ namespace Catalog.Api.Data
             var existData = products.Find(x => true).Any();
             if (!existData)
             {
+                //var stop = new Stopwatch();
+                //stop.Start();
+                Console.WriteLine("--> Seeding data....");
+
                 products.InsertManyAsync(GetPreconfiguredProducts());
+
+                Console.WriteLine("--> Seeding data is done....");
+                //stop.Stop();
             }
         }
 

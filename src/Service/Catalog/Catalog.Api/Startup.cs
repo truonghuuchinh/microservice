@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,6 +51,16 @@ namespace Catalog.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.Use(async (context, next) =>
+            {
+                var path = context.Request.Path.Value;
+
+                Console.WriteLine($"-->Sending request: {path} to server.");
+
+                // Call the next delegate/middleware in the pipeline.
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {
