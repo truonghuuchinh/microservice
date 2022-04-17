@@ -10,9 +10,9 @@ namespace Catalog.Api.Common.Constants
     {
         private readonly IConfiguration _configuration;
 
-        public static string ConnectionString { get; set; }
-        public static string DatabaseName { get; set; }
-        public static string Collection { get; set; }
+        public  string ConnectionString { get; set; }
+        public  string DatabaseName { get; set; }
+        public  string Collection { get; set; }
 
         public ConfigDatabase(IConfiguration configuration)
         {

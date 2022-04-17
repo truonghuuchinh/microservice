@@ -21,7 +21,7 @@ namespace Catalog.Api.Repositories
 
         public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(x => x.Category, categoryName);
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Category, categoryName);
             return await _context.Products
                         .Find(filter).ToListAsync();
         }
@@ -34,7 +34,7 @@ namespace Catalog.Api.Repositories
 
         public async Task<IEnumerable<Product>> GetProductByName(string name)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(x => x.Name, name);
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Name, name);
             return await _context.Products
                         .Find(filter).ToListAsync();
         }
@@ -54,7 +54,7 @@ namespace Catalog.Api.Repositories
 
         public async Task<bool> DeleteProduct(string id)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(x => x.Id, id);
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Id, id);
             if (id == null)
                 throw new ArgumentNullException("Product Id can not null!");
             var result = await _context.Products.DeleteOneAsync(filter);
