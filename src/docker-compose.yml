@@ -1,15 +1,30 @@
 version: '3.4'
 
 services:
+
+#Database of service
   catalogdb:
     image: mongo
 
   basketdb:
     image: redis:alpine
 
+  discountdb:
+    image: postgres
+#end
+
+#Tool to manage docker,postgresdb
+
+  #to manage container of docker on the UI
   portainer:
     image: portainer/portainer-ce
 
+  #to manage postgresSQL in the UI
+  pgadmin:
+   image: dpage/pgadmin4
+#end
+
+#Api service
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
@@ -22,7 +37,28 @@ services:
       context: .
       dockerfile: Service/Basket/Basket.Api/Dockerfile
 
+  discount.api:
+    image:  ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: Service/Discount/Discount.Api/Dockerfile
+
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Service/Discount/Discount.Grpc/Dockerfile
+
+#End
+
+#Combine volumes
+
 volumes:
   mongo_data:
   portainer_data:
+  postgres_data:
+  pgadmin_data:
+#End
+
+
 

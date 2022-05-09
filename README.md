@@ -9,4 +9,7 @@ microservice
 		- This is a service contain product and catalog use database is MongoDb, Mongo db got from docker hub equal command $docker pull mongo, you can push this project to docker equal way right click on the project chose Add->docker compose->add docker compose->linux and ok
 	2. Basket service:
 		- This is service to store item of user to payment use redis db, redis db use memory direcly from hardware so if you has big data you should use another databse.
+*Note:
+	- If you see the error: authen fail for user admin please check the pgadmin of local computer 
+		- if it's running, you need to stop it and trye again
 	
