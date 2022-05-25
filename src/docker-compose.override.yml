@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-#==============================Database of service===============================
+#============================== Database of service ===============================
   catalogdb:
     container_name: catalogdb
     restart: always
@@ -38,7 +38,7 @@ services:
       - "1433:1433"
 #end
 
-#==============================Tool to manage docker,postgresdb====================
+#============================== Tool to manage docker,postgresdb ====================
   portainer:
     container_name: portainer
     restart: always
@@ -68,7 +68,7 @@ services:
         - "15672:15672"
 #end
 
-#============================Api service==============================
+#============================ Api service ==============================
   catalog.api:
     container_name: catalog.api
     environment:
@@ -124,4 +124,32 @@ services:
     ports:
       - "8004:80"
 
+  ocelotapigw:
+    container_name: ocelotapigw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - ordering.api
+      - discount.api
+      - basket.api
+      - catalog.api
+    ports:
+      - "8010:80"
+
+  shopping.aggregator:
+    container_name: shopping.aggregator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings:CatalogUrl=http://catalog.api"
+      - "ApiSettings:BasketUrl=http://basket.api"
+      - "ApiSettings:OrderingUrl=http://ordering.api"
+    depends_on:
+      - catalog.api
+      - basket.api
+      - ordering.api
+    ports:
+      - "8005:80"
+
 #End
+  
+
