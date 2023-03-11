@@ -70,6 +70,11 @@ services:
       context: .
       dockerfile: ApiGateway/Shopping.Aggregator/Dockerfile
 
+  aspnetrunbasics:
+    image: ${DOCKER_REGISTRY-}aspnetrunbasics
+    build:
+      context: .
+      dockerfile: Webapps/AspnetRunBasics/Dockerfile
 #End
 
 #Combine volumes
@@ -79,6 +84,7 @@ volumes:
   postgres_data:
   pgadmin_data:
 #End
+
 
 
 
